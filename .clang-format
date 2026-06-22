@@ -1,0 +1,27 @@
+BasedOnStyle: LLVM
+
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+
+BreakBeforeBraces: Attach
+
+ColumnLimit: 100
+
+PointerAlignment: Left
+AccessModifierOffset: -4
+
+AllowShortIfStatementsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: All
+AllowShortLoopsOnASingleLine: false
+PackConstructorInitializers: Never
+
+NamespaceIndentation: All
+
+SortIncludes: false
+
+BinPackArguments: false
+BinPackParameters: false
+
+BreakAfterReturnType: Automatic
+PenaltyReturnTypeOnItsOwnLine: 1000
