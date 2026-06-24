@@ -23,7 +23,7 @@ namespace pong {
         void use() const { glUseProgram(m_program); }
         void unuse() const { glUseProgram(0); }
 
-        [[nodiscard]] GLuint program() const { return m_program; }
+        [[nodiscard]] GLint uniform_location(const char* name) const;
 
     private:
         GLuint m_program;

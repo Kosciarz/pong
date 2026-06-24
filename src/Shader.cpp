@@ -102,5 +102,9 @@ namespace pong {
         return *this;
     }
 
+    [[nodiscard]] GLint Shader::uniform_location(const char* name) const {
+        return glGetUniformLocation(m_program, name);
+    }
+
 } // namespace pong
 

@@ -5,6 +5,7 @@ set(SOURCES
     "Shader.cpp"
     "Game.cpp"
     "Paddle.cpp"
+    "Ball.cpp"
 )
 
 set(HEADERS
@@ -14,6 +15,7 @@ set(HEADERS
     "Shader.hpp"
     "Game.hpp"
     "Paddle.hpp"
+    "Ball.hpp"
 )
 
 add_executable(pong ${SOURCES} ${HEADERS})

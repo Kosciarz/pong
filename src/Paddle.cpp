@@ -3,6 +3,7 @@
 #include "Shader.hpp"
 
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <array>
 #include <utility>
@@ -73,6 +74,10 @@ namespace pong {
 
     void Paddle::render() const {
         m_shader.use();
+        const glm::mat4 projection = glm::mat4(1.0f);
+        glUniformMatrix4fv(
+            m_shader.uniform_location("projection"), 1, GL_FALSE, glm::value_ptr(projection));
+
         glBindVertexArray(m_vao);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
     }

@@ -82,7 +82,10 @@ namespace pong {
             const float dt = static_cast<float>(current_time - m_last_time);
             m_last_time = current_time;
 
-            m_game->update(dt);
+            const float aspect_ratio =
+                static_cast<float>(m_window_width) / static_cast<float>(m_window_height);
+
+            m_game->update(dt, aspect_ratio);
             m_game->render();
 
             glfwSwapBuffers(m_window);
