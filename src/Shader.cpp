@@ -21,7 +21,7 @@ namespace {
     }
 
     GLuint compile_shader(const GLenum type, const std::string& source) {
-        const GLchar* source_ptr = static_cast<const GLchar*>(source.c_str());
+        const GLchar* source_ptr = source.c_str();
 
         const GLuint shader = glCreateShader(type);
         glShaderSource(shader, 1, &source_ptr, nullptr);
@@ -34,6 +34,8 @@ namespace {
             glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &log_length);
             std::vector<GLchar> log(log_length);
             glGetShaderInfoLog(shader, log_length, nullptr, log.data());
+
+            glDeleteShader(shader);
 
             throw std::runtime_error{std::format("failed to compile {} shader: {}",
                                                  type == GL_VERTEX_SHADER ? "vertex" : "fragment",
@@ -57,6 +59,7 @@ namespace {
             std::vector<GLchar> log(log_length);
             glGetProgramInfoLog(program, log_length, nullptr, log.data());
 
+            glDeleteProgram(program);
             glDeleteShader(vertex_shader);
             glDeleteShader(fragment_shader);
 

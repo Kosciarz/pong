@@ -6,6 +6,8 @@
 
 namespace pong {
 
+    inline static const std::filesystem::path SHADER_DIRECTORY{SHADER_DIR};
+
     class Shader {
     public:
         Shader(const std::filesystem::path& vertex_path,

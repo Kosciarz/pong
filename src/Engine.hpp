@@ -1,6 +1,9 @@
 #pragma once
 
+#include "Game.hpp"
 #include "OpenGLHeaders.hpp"
+
+#include <optional>
 
 namespace pong {
 
@@ -29,6 +32,10 @@ namespace pong {
 
         int m_window_width;
         int m_window_height;
+
+        double m_last_time = 0.0f;
+
+        std::optional<Game> m_game;
     };
 
 } // namespace pong

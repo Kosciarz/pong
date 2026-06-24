@@ -17,7 +17,8 @@ namespace pong {
 
     Engine::Engine()
         : m_window_width{WINDOW_WIDTH},
-          m_window_height{WINDOW_HEIGHT} {
+          m_window_height{WINDOW_HEIGHT},
+          m_last_time{glfwGetTime()} {
         if (!glfwInit()) {
             throw std::runtime_error{"failed to init GLFW"};
         }
@@ -56,9 +57,13 @@ namespace pong {
             glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
             glDebugMessageCallback(pong::gl_debug_callback, nullptr);
         }
+
+        m_game.emplace();
     }
 
     Engine::~Engine() {
+        m_game.reset();
+
         if (m_window) {
             glfwDestroyWindow(m_window);
         }
@@ -72,6 +77,13 @@ namespace pong {
             glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
             glfwPollEvents();
+
+            const double current_time = glfwGetTime();
+            const float dt = static_cast<float>(current_time - m_last_time);
+            m_last_time = current_time;
+
+            m_game->update(dt);
+            m_game->render();
 
             glfwSwapBuffers(m_window);
         }
