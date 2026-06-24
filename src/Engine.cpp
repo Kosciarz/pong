@@ -77,6 +77,7 @@ namespace pong {
             glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
             glfwPollEvents();
+            m_input_handler.update(m_window);
 
             const double current_time = glfwGetTime();
             const float dt = static_cast<float>(current_time - m_last_time);
@@ -85,7 +86,11 @@ namespace pong {
             const float aspect_ratio =
                 static_cast<float>(m_window_width) / static_cast<float>(m_window_height);
 
-            m_game->update(dt, aspect_ratio);
+            const GameContext ctx = {.delta_time = dt,
+                                     .aspect_ratio = aspect_ratio,
+                                     .input_state = m_input_handler.state()};
+
+            m_game->update(ctx);
             m_game->render();
 
             glfwSwapBuffers(m_window);

@@ -9,10 +9,10 @@ namespace pong {
           m_paddle2{glm::vec2{0.9, -0.5}, {0.05, 1.0}},
           m_ball{glm::vec2{0.0, 0.0}, 0.05} {}
 
-    void Game::update(const float dt, const float aspect_ratio) {
-        m_paddle1.update(dt);
-        m_paddle2.update(dt);
-        m_ball.update(dt, aspect_ratio);
+    void Game::update(const GameContext& ctx) {
+        m_paddle1.update(ctx);
+        m_paddle2.update(ctx);
+        m_ball.update(ctx);
     }
 
     void Game::render() {

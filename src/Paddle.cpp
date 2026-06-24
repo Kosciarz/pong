@@ -1,6 +1,7 @@
 #include "Paddle.hpp"
 #include "OpenGLHeaders.hpp"
 #include "Shader.hpp"
+#include "Game.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -70,7 +71,7 @@ namespace pong {
         return *this;
     }
 
-    void Paddle::update(const float dt) {}
+    void Paddle::update(const GameContext& ctx) {}
 
     void Paddle::render() const {
         m_shader.use();

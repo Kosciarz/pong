@@ -2,6 +2,7 @@
 
 #include "Game.hpp"
 #include "OpenGLHeaders.hpp"
+#include "InputHandler.hpp"
 
 #include <optional>
 
@@ -34,6 +35,8 @@ namespace pong {
         int m_window_height;
 
         double m_last_time = 0.0f;
+
+        InputHandler m_input_handler;
 
         std::optional<Game> m_game;
     };

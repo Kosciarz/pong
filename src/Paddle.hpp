@@ -9,6 +9,8 @@
 
 namespace pong {
 
+    struct GameContext;
+
     class Paddle {
     public:
         Paddle(const glm::vec2& position, const glm::vec2& size);
@@ -20,7 +22,7 @@ namespace pong {
         Paddle(Paddle&& other) noexcept;
         Paddle& operator=(Paddle&& other) noexcept;
 
-        void update(const float dt);
+        void update(const GameContext& ctx);
         void render() const;
 
     private:

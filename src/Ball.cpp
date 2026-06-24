@@ -1,5 +1,6 @@
 #include "Ball.hpp"
 #include "OpenGLHeaders.hpp"
+#include "Game.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
@@ -73,8 +74,8 @@ namespace pong {
         return *this;
     }
 
-    void Ball::update(const float dt, const float aspect_ratio) {
-        const glm::mat4 projection = glm::ortho(-aspect_ratio, aspect_ratio, -1.0f, 1.0f);
+    void Ball::update(const GameContext& ctx) {
+        const glm::mat4 projection = glm::ortho(-ctx.aspect_ratio, ctx.aspect_ratio, -1.0f, 1.0f);
 
         m_shader.use();
         glUniformMatrix4fv(

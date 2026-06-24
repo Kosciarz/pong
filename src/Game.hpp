@@ -2,14 +2,21 @@
 
 #include "Paddle.hpp"
 #include "Ball.hpp"
+#include "InputHandler.hpp"
 
 namespace pong {
+
+    struct GameContext {
+        float delta_time;
+        float aspect_ratio;
+        InputState input_state;
+    };
 
     class Game {
     public:
         Game();
 
-        void update(const float dt, const float aspect_ratio);
+        void update(const GameContext& ctx);
         void render();
 
     private:

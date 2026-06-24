@@ -7,6 +7,8 @@
 
 namespace pong {
 
+    struct GameContext;
+
     class Ball {
     public:
         Ball(const glm::vec2& position, const float radius);
@@ -18,7 +20,7 @@ namespace pong {
         Ball(Ball&& other) noexcept;
         Ball& operator=(Ball&& other) noexcept;
 
-        void update(const float dt, const float aspect_ratio);
+        void update(const GameContext& ctx);
         void render();
 
     private:
