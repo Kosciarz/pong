@@ -11,16 +11,18 @@
 
 namespace pong {
 
-    Paddle::Paddle(const glm::vec2& position, const glm::vec2& size)
+    Paddle::Paddle(const glm::vec2& position, const glm::vec2& size, const PaddleType type)
         : m_position{position},
           m_size{size},
+          m_type{type},
           m_shader{SHADER_DIRECTORY / "vertex.vert", SHADER_DIRECTORY / "fragment.frag"} {
         std::array<glm::vec2, 4> vertices = {{
-            {m_position.x, m_position.y},
-            {m_position.x + m_size.x, m_position.y},
-            {m_position.x + m_size.x, m_position.y + m_size.y},
-            {m_position.x, m_position.y + m_size.y},
+            {0.0f, 0.0f},
+            {size.x, 0.0f},
+            {size.x, size.y},
+            {0.0f, size.y},
         }};
+
         std::array<unsigned int, 6> indices{0, 1, 2, 2, 3, 0};
 
         glCreateVertexArrays(1, &m_vao);
@@ -71,14 +73,43 @@ namespace pong {
         return *this;
     }
 
-    void Paddle::update(const GameContext& ctx) {}
+    void Paddle::update(const GameContext& ctx) {
+        constexpr auto speed = 0.2f;
+
+        switch (m_type) {
+        case PaddleType::Left: {
+            if (ctx.input_state.key_w) {
+                m_position.y += speed * ctx.delta_time;
+            }
+            if (ctx.input_state.key_s) {
+                m_position.y -= speed * ctx.delta_time;
+            }
+            break;
+        }
+        case PaddleType::Right: {
+            if (ctx.input_state.key_up) {
+                m_position.y += speed * ctx.delta_time;
+            }
+            if (ctx.input_state.key_down) {
+                m_position.y -= speed * ctx.delta_time;
+            }
+            break;
+        }
+        }
+
+        const glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3{m_position, 0.0f});
+        // m_position = glm::vec2{m_position.x, m_position.y + 2.0f * ctx.delta_time};
+
+        const glm::mat4 projection = glm::mat4{1.0f};
+
+        m_shader.use();
+        glUniformMatrix4fv(m_shader.uniform_location("model"), 1, GL_FALSE, glm::value_ptr(model));
+        glUniformMatrix4fv(
+            m_shader.uniform_location("projection"), 1, GL_FALSE, glm::value_ptr(projection));
+    }
 
     void Paddle::render() const {
         m_shader.use();
-        const glm::mat4 projection = glm::mat4(1.0f);
-        glUniformMatrix4fv(
-            m_shader.uniform_location("projection"), 1, GL_FALSE, glm::value_ptr(projection));
-
         glBindVertexArray(m_vao);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
     }

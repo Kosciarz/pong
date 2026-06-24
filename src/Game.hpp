@@ -20,8 +20,8 @@ namespace pong {
         void render();
 
     private:
-        Paddle m_paddle1;
-        Paddle m_paddle2;
+        Paddle m_paddle_left;
+        Paddle m_paddle_right;
         Ball m_ball;
     };
 

@@ -11,9 +11,11 @@ namespace pong {
 
     struct GameContext;
 
+    enum class PaddleType { Left, Right };
+
     class Paddle {
     public:
-        Paddle(const glm::vec2& position, const glm::vec2& size);
+        Paddle(const glm::vec2& position, const glm::vec2& size, const PaddleType type);
         ~Paddle();
 
         Paddle(const Paddle&) = delete;
@@ -28,6 +30,7 @@ namespace pong {
     private:
         glm::vec2 m_position;
         glm::vec2 m_size;
+        PaddleType m_type;
 
         GLuint m_vao, m_vbo, m_ebo;
         Shader m_shader;

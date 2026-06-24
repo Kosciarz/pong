@@ -5,19 +5,19 @@
 namespace pong {
 
     Game::Game()
-        : m_paddle1{glm::vec2{-0.95, -0.5}, glm::vec2{0.05, 1.0}},
-          m_paddle2{glm::vec2{0.9, -0.5}, {0.05, 1.0}},
-          m_ball{glm::vec2{0.0, 0.0}, 0.05} {}
+        : m_paddle_left{glm::vec2{-0.95f, -0.5f}, glm::vec2{0.05f, 1.0f}, PaddleType::Left},
+          m_paddle_right{glm::vec2{0.9f, -0.5f}, glm::vec2{0.05f, 1.0f}, PaddleType::Right},
+          m_ball{glm::vec2{0.0f, 0.0f}, 0.03f} {}
 
     void Game::update(const GameContext& ctx) {
-        m_paddle1.update(ctx);
-        m_paddle2.update(ctx);
+        m_paddle_left.update(ctx);
+        m_paddle_right.update(ctx);
         m_ball.update(ctx);
     }
 
     void Game::render() {
-        m_paddle1.render();
-        m_paddle2.render();
+        m_paddle_left.render();
+        m_paddle_right.render();
         m_ball.render();
     }
 
