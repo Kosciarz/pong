@@ -2,6 +2,7 @@
 
 #include "OpenGLHeaders.hpp"
 #include "Shader.hpp"
+#include "Paddle.hpp"
 
 #include <glm/glm.hpp>
 
@@ -22,6 +23,15 @@ namespace pong {
 
         void update(const GameContext& ctx);
         void render();
+
+        void handle_collision(const PaddleType side);
+
+        [[nodiscard]] const glm::vec2& position() const { return m_position; }
+        [[nodiscard]] float radius() const { return m_radius; }
+        [[nodiscard]] const glm::vec2& velocity() const { return m_velocity; }
+
+        void set_position(const glm::vec2& pos) { m_position = pos; };
+        void set_velocity(const glm::vec2& vel) { m_velocity = vel; }
 
     private:
         glm::vec2 m_position;
