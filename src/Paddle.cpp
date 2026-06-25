@@ -8,6 +8,7 @@
 
 #include <array>
 #include <utility>
+#include <algorithm>
 
 namespace pong {
 
@@ -97,9 +98,8 @@ namespace pong {
         }
         }
 
+        m_position.y = std::clamp(m_position.y, -1.0f, 1.0f - m_size.y);
         const glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3{m_position, 0.0f});
-        // m_position = glm::vec2{m_position.x, m_position.y + 2.0f * ctx.delta_time};
-
         const glm::mat4 projection = glm::mat4{1.0f};
 
         m_shader.use();
