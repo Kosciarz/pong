@@ -26,6 +26,7 @@ namespace pong {
     private:
         glm::vec2 m_position;
         float m_radius;
+        glm::vec2 m_velocity;
 
         GLuint m_vao, m_vbo;
         Shader m_shader;

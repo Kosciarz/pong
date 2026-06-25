@@ -15,13 +15,14 @@ namespace pong {
     Ball::Ball(const glm::vec2& position, const float radius)
         : m_position{position},
           m_radius{radius},
-          m_shader{SHADER_DIRECTORY / "vertex.vert", SHADER_DIRECTORY / "fragment.frag"} {
+          m_shader{SHADER_DIRECTORY / "vertex.vert", SHADER_DIRECTORY / "fragment.frag"},
+          m_velocity{0.5f, 0.5f} {
         constexpr auto segments = 100;
 
         std::vector<float> vertices;
         vertices.reserve((segments + 2) * 2);
-        vertices.push_back(m_position.x);
-        vertices.push_back(m_position.y);
+        vertices.push_back(0.0f);
+        vertices.push_back(0.0f);
 
         for (int i = 0; i < segments; ++i) {
             const float theta = 2.0f * std::numbers::pi_v<float> * i / segments;
@@ -75,9 +76,17 @@ namespace pong {
     }
 
     void Ball::update(const GameContext& ctx) {
+        m_position += m_velocity * ctx.delta_time;
+
+        if (m_position.y + m_radius >= 1.0f || m_position.y - m_radius <= -1.0f) {
+            m_velocity.y *= -1.0f;
+        }
+
+        const glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3{m_position, 0.0f});
         const glm::mat4 projection = glm::ortho(-ctx.aspect_ratio, ctx.aspect_ratio, -1.0f, 1.0f);
 
         m_shader.use();
+        glUniformMatrix4fv(m_shader.uniform_location("model"), 1, GL_FALSE, glm::value_ptr(model));
         glUniformMatrix4fv(
             m_shader.uniform_location("projection"), 1, GL_FALSE, glm::value_ptr(projection));
     }
