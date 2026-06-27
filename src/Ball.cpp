@@ -12,11 +12,15 @@
 
 namespace pong {
 
-    Ball::Ball(const glm::vec2& position, const float radius)
+    Ball::Ball(const glm::vec2& position,
+               const float radius,
+               const glm::vec2& velocity,
+               const BallType type)
         : m_position{position},
           m_radius{radius},
-          m_shader{SHADER_DIRECTORY / "vertex.vert", SHADER_DIRECTORY / "fragment.frag"},
-          m_velocity{0.5f, 0.5f} {
+          m_velocity{velocity},
+          m_type{type},
+          m_shader{SHADER_DIRECTORY / "vertex.vert", SHADER_DIRECTORY / "fragment.frag"} {
         constexpr auto segments = 100;
 
         std::vector<float> vertices;
@@ -78,8 +82,23 @@ namespace pong {
     void Ball::update(const GameContext& ctx) {
         m_position += m_velocity * ctx.delta_time;
 
-        if (m_position.y + m_radius >= 1.0f || m_position.y - m_radius <= -1.0f) {
-            m_velocity.y *= -1.0f;
+        switch (m_type) {
+        case BallType::TwoPlayer: {
+            if (m_position.y + m_radius >= 1.0f || m_position.y - m_radius <= -1.0f) {
+                m_velocity.y *= -1.0f;
+            }
+            break;
+        }
+        case BallType::SinglePlayer: {
+            if (m_position.y + m_radius >= 1.0f) {
+                m_velocity.y *= -1.0f;
+            }
+            if (m_position.x + m_radius >= 1.0f * ctx.aspect_ratio ||
+                m_position.x - m_radius <= -1.0f * ctx.aspect_ratio) {
+                m_velocity.x *= -1.0f;
+            }
+            break;
+        }
         }
 
         const glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3{m_position, 0.0f});

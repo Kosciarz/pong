@@ -11,7 +11,7 @@ namespace pong {
 
     struct GameContext;
 
-    enum class PaddleType { Left, Right };
+    enum class PaddleType { Left, Right, Single };
 
     class Paddle {
     public:

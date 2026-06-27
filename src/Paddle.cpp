@@ -96,9 +96,19 @@ namespace pong {
             }
             break;
         }
+        case PaddleType::Single: {
+            if (ctx.input_state.key_left) {
+                m_position.x -= speed * ctx.delta_time;
+            }
+            if (ctx.input_state.key_right) {
+                m_position.x += speed * ctx.delta_time;
+            }
+            break;
+        }
         }
 
         m_position.y = std::clamp(m_position.y, -1.0f, 1.0f - m_size.y);
+        m_position.x = std::clamp(m_position.x, -1.0f, 1.0f - m_size.x);
         const glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3{m_position, 0.0f});
         const glm::mat4 projection = glm::mat4{1.0f};
 

@@ -6,6 +6,8 @@
 
 namespace pong {
 
+    enum class GameState { TwoPlayer, SinglePlayer };
+
     struct GameContext {
         float delta_time;
         float aspect_ratio;
@@ -20,9 +22,14 @@ namespace pong {
         void render();
 
     private:
+        GameState m_state = GameState::TwoPlayer;
+
         Paddle m_left_paddle;
         Paddle m_right_paddle;
         Ball m_ball;
+
+        Paddle m_single_paddle;
+        Ball m_single_ball;
     };
 
 } // namespace pong

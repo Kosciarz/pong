@@ -9,6 +9,12 @@ namespace pong {
 
         m_state.key_up = glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS;
         m_state.key_down = glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS;
+
+        m_state.key_left = glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS;
+        m_state.key_right = glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS;
+
+        m_state.key_1 = glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS;
+        m_state.key_2 = glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS;
     }
 
 } // namespace pong

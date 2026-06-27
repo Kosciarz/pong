@@ -11,6 +11,12 @@ namespace pong {
 
         bool key_up = false;
         bool key_down = false;
+
+        bool key_left = false;
+        bool key_right = false;
+
+        bool key_1 = false;
+        bool key_2 = false;
     };
 
     class InputHandler {
