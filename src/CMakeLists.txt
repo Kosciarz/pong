@@ -7,6 +7,7 @@ set(SOURCES
     "Paddle.cpp"
     "Ball.cpp"
     "InputHandler.cpp"
+    "Collision.cpp"
 )
 
 set(HEADERS
@@ -18,6 +19,7 @@ set(HEADERS
     "Paddle.hpp"
     "Ball.hpp"
     "InputHandler.hpp"
+    "Collision.hpp"
 )
 
 add_executable(pong ${SOURCES} ${HEADERS})

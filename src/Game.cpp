@@ -1,51 +1,9 @@
 #include "Game.hpp"
+#include "Collision.hpp"
 
 #include <glm/glm.hpp>
-#include <print>
 
 namespace {
-
-    [[nodiscard]] bool check_left_paddle_collision(const pong::Ball& ball,
-                                                   const pong::Paddle& paddle,
-                                                   const float aspect_ratio) {
-        const float paddle_right = (paddle.position().x + paddle.size().x) * aspect_ratio;
-        const float paddle_bottom = paddle.position().y;
-        const float paddle_top = paddle.position().y + paddle.size().y;
-
-        const float ball_left = ball.position().x - ball.radius();
-        const float ball_bottom = ball.position().y - ball.radius();
-        const float ball_top = ball.position().y + ball.radius();
-
-        return ball_left <= paddle_right && ball_bottom <= paddle_top && ball_top >= paddle_bottom;
-    }
-
-    [[nodiscard]] bool check_right_paddle_collision(const pong::Ball& ball,
-                                                    const pong::Paddle& paddle,
-                                                    const float aspect_ratio) {
-        const float paddle_left = paddle.position().x * aspect_ratio;
-        const float paddle_bottom = paddle.position().y;
-        const float paddle_top = paddle.position().y + paddle.size().y;
-
-        const float ball_right = ball.position().x + ball.radius();
-        const float ball_bottom = ball.position().y - ball.radius();
-        const float ball_top = ball.position().y + ball.radius();
-
-        return ball_right >= paddle_left && ball_bottom <= paddle_top && ball_top >= paddle_bottom;
-    }
-
-    [[nodiscard]] bool check_single_paddle_collision(const pong::Ball& ball,
-                                                     const pong::Paddle& paddle,
-                                                     const float aspect_ratio) {
-        const float paddle_top = paddle.position().y + paddle.size().y;
-        const float paddle_left = paddle.position().x * aspect_ratio;
-        const float paddle_right = (paddle.position().x + paddle.size().x) * aspect_ratio;
-
-        const float ball_bottom = ball.position().y - ball.radius();
-        const float ball_left = ball.position().x - ball.radius();
-        const float ball_right = ball.position().x + ball.radius();
-
-        return ball_bottom <= paddle_top && ball_right >= paddle_left && ball_left <= paddle_right;
-    }
 
     void handle_left_paddle_collision(pong::Ball& ball,
                                       const pong::Paddle& paddle,
@@ -110,10 +68,10 @@ namespace pong {
             m_right_paddle.update(ctx);
             m_ball.update(ctx);
 
-            if (check_left_paddle_collision(m_ball, m_left_paddle, ctx.aspect_ratio)) {
+            if (Collision::ball_left_paddle(m_ball, m_left_paddle, ctx.aspect_ratio)) {
                 handle_left_paddle_collision(m_ball, m_left_paddle, ctx.aspect_ratio);
             }
-            if (check_right_paddle_collision(m_ball, m_right_paddle, ctx.aspect_ratio)) {
+            if (Collision::ball_right_paddle(m_ball, m_right_paddle, ctx.aspect_ratio)) {
                 handle_right_paddle_collision(m_ball, m_right_paddle, ctx.aspect_ratio);
             }
             break;
@@ -122,7 +80,7 @@ namespace pong {
             m_single_paddle.update(ctx);
             m_single_ball.update(ctx);
 
-            if (check_single_paddle_collision(m_single_ball, m_single_paddle, ctx.aspect_ratio)) {
+            if (Collision::ball_single_paddle(m_single_ball, m_single_paddle, ctx.aspect_ratio)) {
                 handle_single_paddle_collision(m_single_ball, m_single_paddle, ctx.aspect_ratio);
             }
             break;
