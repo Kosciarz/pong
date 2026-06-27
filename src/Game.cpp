@@ -8,19 +8,29 @@ namespace {
     [[nodiscard]] bool check_left_paddle_collision(const pong::Ball& ball,
                                                    const pong::Paddle& paddle,
                                                    const float aspect_ratio) {
-        const float paddle_right_edge = (paddle.position().x + paddle.size().x) * aspect_ratio;
-        return ball.position().x - ball.radius() <= paddle_right_edge &&
-               ball.position().y + ball.radius() >= paddle.position().y &&
-               ball.position().y - ball.radius() <= paddle.position().y + paddle.size().y;
+        const float paddle_right = (paddle.position().x + paddle.size().x) * aspect_ratio;
+        const float paddle_bottom = paddle.position().y;
+        const float paddle_top = paddle.position().y + paddle.size().y;
+
+        const float ball_left = ball.position().x - ball.radius();
+        const float ball_bottom = ball.position().y - ball.radius();
+        const float ball_top = ball.position().y + ball.radius();
+
+        return ball_left <= paddle_right && ball_bottom <= paddle_top && ball_top >= paddle_bottom;
     }
 
     [[nodiscard]] bool check_right_paddle_collision(const pong::Ball& ball,
                                                     const pong::Paddle& paddle,
                                                     const float aspect_ratio) {
-        const float paddle_left_edge = paddle.position().x * aspect_ratio;
-        return ball.position().x + ball.radius() >= paddle_left_edge &&
-               ball.position().y + ball.radius() >= paddle.position().y &&
-               ball.position().y - ball.radius() <= paddle.position().y + paddle.size().y;
+        const float paddle_left = paddle.position().x * aspect_ratio;
+        const float paddle_bottom = paddle.position().y;
+        const float paddle_top = paddle.position().y + paddle.size().y;
+
+        const float ball_right = ball.position().x + ball.radius();
+        const float ball_bottom = ball.position().y - ball.radius();
+        const float ball_top = ball.position().y + ball.radius();
+
+        return ball_right >= paddle_left && ball_bottom <= paddle_top && ball_top >= paddle_bottom;
     }
 
     [[nodiscard]] bool check_single_paddle_collision(const pong::Ball& ball,
