@@ -47,15 +47,31 @@ namespace {
         return ball_bottom <= paddle_top && ball_right >= paddle_left && ball_left <= paddle_right;
     }
 
-    void handle_left_paddle_collision(pong::Ball& ball) {
+    void handle_left_paddle_collision(pong::Ball& ball,
+                                      const pong::Paddle& paddle,
+                                      const float aspect_ratio) {
+        const glm::vec2 new_position{(paddle.position().x + paddle.size().x) * aspect_ratio +
+                                         ball.radius(),
+                                     ball.position().y};
+        ball.set_position(new_position);
         ball.set_velocity(ball.velocity() * glm::vec2{-1.0f, 1.0f});
     }
 
-    void handle_right_paddle_collision(pong::Ball& ball) {
+    void handle_right_paddle_collision(pong::Ball& ball,
+                                       const pong::Paddle& paddle,
+                                       const float aspect_ratio) {
+        const glm::vec2 new_position{paddle.position().x * aspect_ratio - ball.radius(),
+                                     ball.position().y};
+        ball.set_position(new_position);
         ball.set_velocity(ball.velocity() * glm::vec2{-1.0f, 1.0f});
     }
 
-    void handle_single_paddle_collision(pong::Ball& ball) {
+    void handle_single_paddle_collision(pong::Ball& ball,
+                                        const pong::Paddle& paddle,
+                                        const float aspect_ratio) {
+        const glm::vec2 new_position{ball.position().x,
+                                     paddle.position().y + paddle.size().y + ball.radius()};
+        ball.set_position(new_position);
         ball.set_velocity(ball.velocity() * glm::vec2{1.0f, -1.0f});
     }
 
@@ -95,10 +111,10 @@ namespace pong {
             m_ball.update(ctx);
 
             if (check_left_paddle_collision(m_ball, m_left_paddle, ctx.aspect_ratio)) {
-                handle_left_paddle_collision(m_ball);
+                handle_left_paddle_collision(m_ball, m_left_paddle, ctx.aspect_ratio);
             }
             if (check_right_paddle_collision(m_ball, m_right_paddle, ctx.aspect_ratio)) {
-                handle_right_paddle_collision(m_ball);
+                handle_right_paddle_collision(m_ball, m_right_paddle, ctx.aspect_ratio);
             }
             break;
         }
@@ -107,7 +123,7 @@ namespace pong {
             m_single_ball.update(ctx);
 
             if (check_single_paddle_collision(m_single_ball, m_single_paddle, ctx.aspect_ratio)) {
-                handle_single_paddle_collision(m_single_ball);
+                handle_single_paddle_collision(m_single_ball, m_single_paddle, ctx.aspect_ratio);
             }
             break;
         }
