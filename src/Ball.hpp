@@ -1,7 +1,5 @@
 #pragma once
 
-#include "OpenGLHeaders.hpp"
-#include "Shader.hpp"
 #include "Paddle.hpp"
 
 #include <glm/glm.hpp>
@@ -18,17 +16,8 @@ namespace pong {
              const float radius,
              const glm::vec2& velocity,
              const BallType type);
-        ~Ball();
-
-        Ball(const Ball&) = delete;
-        Ball& operator=(const Ball&) = delete;
-
-        Ball(Ball&& other) noexcept;
-        Ball& operator=(Ball&& other) noexcept;
 
         void update(const GameContext& ctx);
-        void render();
-
         void handle_collision(const PaddleType side);
 
         [[nodiscard]] const glm::vec2& position() const { return m_position; }
@@ -44,10 +33,6 @@ namespace pong {
         float m_radius;
         glm::vec2 m_velocity;
         BallType m_type;
-
-        GLuint m_vao, m_vbo;
-        Shader m_shader;
-        std::size_t m_vertex_count;
     };
 
 } // namespace pong
