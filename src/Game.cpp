@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include "Collision.hpp"
+#include "Renderer.hpp"
 
 #include <glm/glm.hpp>
 
@@ -88,17 +89,22 @@ namespace pong {
         }
     }
 
-    void Game::render() {
+    void Game::render(Renderer& renderer) {
         switch (m_state) {
         case GameState::TwoPlayer: {
-            m_left_paddle.render();
-            m_right_paddle.render();
-            m_ball.render();
+            renderer.draw_quad(m_left_paddle.position(), m_left_paddle.size());
+            renderer.draw_quad(m_right_paddle.position(), m_right_paddle.size());
+            renderer.draw_circle(m_ball.position(), m_ball.radius());
+            // m_left_paddle.render();
+            // m_right_paddle.render();
+            // m_ball.render();
             break;
         }
         case GameState::SinglePlayer: {
-            m_single_paddle.render();
-            m_single_ball.render();
+            renderer.draw_quad(m_single_paddle.position(), m_single_paddle.size());
+            renderer.draw_circle(m_single_ball.position(), m_single_ball.radius());
+            // m_single_paddle.render();
+            // m_single_ball.render();
             break;
         }
         }

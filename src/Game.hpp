@@ -3,6 +3,7 @@
 #include "Paddle.hpp"
 #include "Ball.hpp"
 #include "InputHandler.hpp"
+#include "Renderer.hpp"
 
 namespace pong {
 
@@ -19,7 +20,7 @@ namespace pong {
         Game();
 
         void update(const GameContext& ctx);
-        void render();
+        void render(Renderer& renderer);
 
     private:
         GameState m_state = GameState::TwoPlayer;

@@ -58,6 +58,8 @@ namespace pong {
             glDebugMessageCallback(pong::gl_debug_callback, nullptr);
         }
 
+        m_renderer.emplace(m_window_width, m_window_height);
+
         m_game.emplace();
     }
 
@@ -73,8 +75,9 @@ namespace pong {
 
     void Engine::run() {
         while (!glfwWindowShouldClose(m_window)) {
-            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-            glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+            // glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+            // glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+            m_renderer->clear_screen();
 
             glfwPollEvents();
             m_input_handler.update(m_window);
@@ -91,18 +94,18 @@ namespace pong {
                                      .input_state = m_input_handler.state()};
 
             m_game->update(ctx);
-            m_game->render();
+            m_game->render(*m_renderer);
 
             glfwSwapBuffers(m_window);
         }
     }
     void Engine::framebuffer_size_callback(GLFWwindow* window, const int width, const int height) {
-        glViewport(0, 0, width, height);
-
         auto* e = static_cast<Engine*>(glfwGetWindowUserPointer(window));
         if (e) {
             e->m_window_width = width;
             e->m_window_height = height;
+
+            e->m_renderer->on_resize(width, height);
         }
     }
     void Engine::key_callback(

@@ -3,6 +3,7 @@
 #include "Game.hpp"
 #include "OpenGLHeaders.hpp"
 #include "InputHandler.hpp"
+#include "Renderer.hpp"
 
 #include <optional>
 
@@ -37,6 +38,7 @@ namespace pong {
         double m_last_time = 0.0f;
 
         InputHandler m_input_handler;
+        std::optional<Renderer> m_renderer;
 
         std::optional<Game> m_game;
     };
